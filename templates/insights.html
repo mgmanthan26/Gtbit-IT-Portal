@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block body %}
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('{{ url_for('static', filename='img/Gtbit-img.jpg') }}')">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="page-heading">
+              <h1>Pro Insights</h1>
+              <span class="subheading">Tips and Tricks to crack companies.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+          <a href="https://www.geeksforgeeks.org/amazon-interview-set-53-sde-1/" target="_blank"><h1>Amazon interview experience</h1></a>
+          </div>
+          <p>ABC of our college speaks up on how he cracked Amazon and got a job offer for SDE-1 @Amazon </p>
+        </div>
+      </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <a href="https://www.geeksforgeeks.org/tag/adobe/" target="_blank"><h1>Adobe interview experience</h1></a>
+            </div>
+          <p>See how XYZ of our college got a job offer of 39 LPA from Adobe </p>
+          </div>
+        </div>
+
+   {% endblock %}
