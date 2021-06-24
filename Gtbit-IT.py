@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, url_for
+from flask_mysqldb import MySQL,MySQLdb
+import bcrypt 
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_mail import Mail
@@ -15,7 +17,16 @@ with open('config.json', 'r') as c:
 local_server = True
 
 app = Flask(__name__)
-app.secret_key = 'super-secret-key'
+app.secret_key = "caircocoders-ednalan-2020"
+ 
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'gtbit'
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+mysql = MySQL(app)
+
+# app.secret_key = 'super-secret-key'
 app.config['UPLOAD_FOLDER'] = params['upload_location']
 app.config.update(
     MAIL_SERVER = 'smtp.gmail.com',
@@ -26,6 +37,7 @@ app.config.update(
 )
 
 mail = Mail(app)
+
 
 if(local_server):
     app.config['SQLALCHEMY_DATABASE_URI'] = params['local_uri']
@@ -66,31 +78,62 @@ class Posts(db.Model):
 @app.route("/")
 def home():
     post = Posts.query.filter_by().all()
-    last = math.ceil(len(post)/int(params['no_of_posts']))
-    #[0: params['no_of_posts']]
-    #posts = posts[]
-    page = request.args.get('page')
-    if(not str(page).isnumeric()):
-        page = 1
-    page= int(page)
-    post = post[(page-1)*int(params['no_of_posts']): (page-1)*int(params['no_of_posts'])+ int(params['no_of_posts'])]
-    #Pagination Logic
-    #First
-    if (page==1):
-        prev = "#"
-        next = "/?page="+ str(page+1)
-    elif(page==last):
-        prev = "/?page=" + str(page - 1)
-        next = "#"
-    else:
-        prev = "/?page=" + str(page - 1)
-        next = "/?page=" + str(page + 1)
-
-    return render_template('index.html', params=params, post=post, prev=prev, next=next)
+    return render_template('login1.html',params=params, post=post)
+    
+@app.route("/index")
+def index():
+    return render_template('index.html', params=params)
 
 @app.route("/insights")
 def insights():
-    return render_template('insights.html', params=params)    
+    return render_template('insights.html', params=params)  
+
+
+@app.route("/register",methods = ["GET","POST"])
+def register():
+    if request.method == 'GET':
+        return render_template("register.html", params=params)
+    else:
+        name = request.form['name']
+        email = request.form['email']
+        password = request.form['password'].encode('utf-8')
+        hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
+ 
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO users (name, email, password) VALUES (%s,%s,%s)",(name,email,hash_password,))
+        mysql.connection.commit()
+        session['name'] = request.form['name']
+        session['email'] = request.form['email']
+        return redirect(url_for('index'))
+
+@app.route('/login1',methods=["GET","POST"])
+def login1():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password'].encode('utf-8')
+ 
+        curl = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        curl.execute("SELECT * FROM users WHERE email=%s",(email,))
+        user = curl.fetchone()
+        curl.close()
+ 
+        if len(user) > 0:
+            if bcrypt.hashpw(password, user["password"].encode('utf-8')) == user["password"].encode('utf-8'):
+                session['name'] = user['name']
+                session['email'] = user['email']
+                return redirect(url_for('index'))
+            else:
+                return "Error password and email not match"
+        else:
+            return "Error user not found"
+    else:
+        return render_template("login1.html", params = params)     
+
+@app.route('/logout1')
+def logout1():
+    session.clear()
+    return render_template("login1.html", params=params)           
+
 
 @app.route("/dashboard", methods=['GET', 'POST'])
 def dashboard():
@@ -154,6 +197,32 @@ def edit(sno):
         return render_template('edit.html', params=params, post=post, sno=sno)
 
 
+
+@app.route("/fresher")
+def fresher():
+    post = Posts.query.filter_by().all()
+    last = math.ceil(len(post)/int(params['no_of_posts']))
+    #[0: params['no_of_posts']]
+    #posts = posts[]
+    page = request.args.get('page')
+    if(not str(page).isnumeric()):
+        page = 1
+    page= int(page)
+    post = post[(page-1)*int(params['no_of_posts']): (page-1)*int(params['no_of_posts'])+ int(params['no_of_posts'])]
+    #Pagination Logic
+    #First
+    if (page==1):
+        prev = "#"
+        next = "/fresher?page="+ str(page+1)
+    elif(page==last):
+        prev = "/fresher?page=" + str(page - 1)
+        next = "#"
+    else:
+        prev = "/fresher?page=" + str(page - 1)
+        next = "/fresher?page=" + str(page + 1)
+
+    return render_template('fresher.html', params=params, post=post, prev=prev, next=next)        
+   
 
 @app.route("/post/<string:post_slug>", methods= ['GET'])
 def post_route(post_slug):
