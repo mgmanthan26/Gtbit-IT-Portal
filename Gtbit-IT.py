@@ -7,6 +7,7 @@ from flask_mail import Mail
 from werkzeug.utils import secure_filename
 import json
 import os
+import time
 import math
 
 
@@ -46,6 +47,17 @@ else:
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/gtbit'
 db = SQLAlchemy(app)
 
+
+class Review(db.Model):
+   
+    sno = db.Column(db.Integer, primary_key=True)
+    company = db.Column(db.String(150), nullable=False)
+    name = db.Column(db.String(150), nullable=False)
+    review = db.Column(db.String(1500), nullable=False)
+    perks = db.Column(db.String(1000), nullable=False)
+    ctc = db.Column(db.String(1000), nullable=False)
+    # date = db.Column(db.String(12), nullable=True)
+    email = db.Column(db.String(150), nullable=False)
 
 class Contacts(db.Model):
    
@@ -88,6 +100,26 @@ def index():
 def insights():
     return render_template('insights.html', params=params)  
 
+@app.route("/review")
+def review():
+    return render_template("review.html", params=params)
+
+@app.route("/writereview", methods = ['GET', 'POST'] )
+def writereview():
+    if(request.method=='POST'):
+        '''Add entry to the database'''
+        company = request.form.get('company')
+        name = request.form.get('name')
+        email = request.form.get('email')
+        review = request.form.get('review')
+        perks = request.form.get('perks')
+        ctc = request.form.get('ctc')
+        entry = Review(company = company, name=name, review=review,email = email, ctc=ctc, perks = perks )
+        db.session.add(entry)
+        time.sleep(5)
+        db.session.commit()
+
+    return render_template("writereview.html", params=params)    
 
 @app.route("/register",methods = ["GET","POST"])
 def register():
@@ -223,6 +255,56 @@ def fresher():
 
     return render_template('fresher.html', params=params, post=post, prev=prev, next=next)        
    
+@app.route("/experience")
+def experience():
+    post = Posts.query.filter_by().all()
+    last = math.ceil(len(post)/int(params['no_of_posts']))
+    #[0: params['no_of_posts']]
+    #posts = posts[]
+    page = request.args.get('page')
+    if(not str(page).isnumeric()):
+        page = 1
+    page= int(page)
+    post = post[(page-1)*int(params['no_of_posts']): (page-1)*int(params['no_of_posts'])+ int(params['no_of_posts'])]
+    #Pagination Logic
+    #First
+    if (page==1):
+        prev = "#"
+        next = "/fresher?page="+ str(page+1)
+    elif(page==last):
+        prev = "/fresher?page=" + str(page - 1)
+        next = "#"
+    else:
+        prev = "/fresher?page=" + str(page - 1)
+        next = "/fresher?page=" + str(page + 1)
+
+    return render_template('experience.html', params=params, post=post, prev=prev, next=next)
+
+@app.route("/internship")
+def internship():
+    post = Posts.query.filter_by().all()
+    last = math.ceil(len(post)/int(params['no_of_posts']))
+    #[0: params['no_of_posts']]
+    #posts = posts[]
+    page = request.args.get('page')
+    if(not str(page).isnumeric()):
+        page = 1
+    page= int(page)
+    post = post[(page-1)*int(params['no_of_posts']): (page-1)*int(params['no_of_posts'])+ int(params['no_of_posts'])]
+    #Pagination Logic
+    #First
+    if (page==1):
+        prev = "#"
+        next = "/fresher?page="+ str(page+1)
+    elif(page==last):
+        prev = "/fresher?page=" + str(page - 1)
+        next = "#"
+    else:
+        prev = "/fresher?page=" + str(page - 1)
+        next = "/fresher?page=" + str(page + 1)
+
+    return render_template('internship.html', params=params, post=post, prev=prev, next=next)
+
 
 @app.route("/post/<string:post_slug>", methods= ['GET'])
 def post_route(post_slug):

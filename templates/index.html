@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-<header class="masthead" style="background-image: url('{{ url_for('static', filename='img/logo.jpg.jpg ') }}')">
+<header class="masthead" style="background-image: url('static/img/jobs3.jpeg')">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <link rel="stylesheet" href="file.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,6 +44,13 @@
     transform: scale(1.1); 
     
  }
+ .flickity-viewport{
+   height: 420px !important;
+   width: 75rem !important;
+ }
+ /* .flickity-slider{
+   width : 120% !important;
+ } */
  
      </style>
   </header>
@@ -76,26 +83,26 @@
   <div>
     <!-- Flickity HTML init -->
    <div class="size" style="padding-left: 18rem; padding-right: 18rem">
-     <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
+     <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }' style="height: 430px;">
 
-       <div class="gallery-cell" >
-         <img id="photo" style="border-radius: 5%;" style="margin: 50px;" src="https://media-exp3.licdn.com/dms/image/C4E22AQFeUXNVy53uCg/feedshare-shrink_1280/0/1623584793506?e=1626912000&v=beta&t=YxaFdbkVJRNMNOv95VEWSnzvjqC0jegozc7dzYTzD0g" alt="Trulli" width="450" height="350" />
+       <div class="gallery-cell" style="margin-top: 35px;" >
+         <img id="photo" style="border-radius: 5%;" src="https://media-exp3.licdn.com/dms/image/C4E22AQFeUXNVy53uCg/feedshare-shrink_1280/0/1623584793506?e=1626912000&v=beta&t=YxaFdbkVJRNMNOv95VEWSnzvjqC0jegozc7dzYTzD0g" alt="Trulli" width="450" height="350" />
        </div>
 
-       <div class="gallery-cell">
-         <img id="photo" style="border-radius: 5%;"  style="margin: 50px;" src="https://media-exp3.licdn.com/dms/image/C4E22AQFYwjtgccUH9A/feedshare-shrink_800/0/1624021306968?e=1626912000&v=beta&t=u0vGWYm-dNATk657ppBvyBsEamTjZECgNuAyNYD0rpc" alt="Trulli" width="450" height="350" />
+       <div class="gallery-cell" style="margin-top: 35px;">
+         <img id="photo" style="border-radius: 5%;" src="https://media-exp3.licdn.com/dms/image/C4E22AQFYwjtgccUH9A/feedshare-shrink_800/0/1624021306968?e=1626912000&v=beta&t=u0vGWYm-dNATk657ppBvyBsEamTjZECgNuAyNYD0rpc" alt="Trulli" width="450" height="350" />
        </div>
  
-       <div class="gallery-cell">
-         <img id="photo" style="border-radius: 5%;"  style="padding: 10px;" src="https://media-exp3.licdn.com/dms/image/C4E22AQH4qS3Rf1CUCA/feedshare-shrink_800/0/1617367840630?e=1626912000&v=beta&t=UMuTYtFzgCiZdqj0M0-dSwOzZflEddKb4fC_0r8lswc" alt="Trulli" width="450" height="350" />
+       <div class="gallery-cell" style="margin-top: 35px;">
+         <img id="photo" style="border-radius: 5%;" src="https://media-exp3.licdn.com/dms/image/C4E22AQH4qS3Rf1CUCA/feedshare-shrink_800/0/1617367840630?e=1626912000&v=beta&t=UMuTYtFzgCiZdqj0M0-dSwOzZflEddKb4fC_0r8lswc" alt="Trulli" width="450" height="350" />
        </div>
  
-       <div class="gallery-cell">
-         <img id="photo" style="border-radius: 5%;" style="padding: 10px;" src="https://media-exp3.licdn.com/dms/image/C4E22AQEDw99Z7eXfbA/feedshare-shrink_800/0/1619871680889?e=1626912000&v=beta&t=mKVGjW6CoKHu7cHwjMq0UHDuqa7Is3rRCPelY3WVCmM" alt="Trulli" width="450" height="350" />
+       <div class="gallery-cell" style="margin-top: 35px;">
+         <img id="photo" style="border-radius: 5%;" src="https://media-exp3.licdn.com/dms/image/C4E22AQEDw99Z7eXfbA/feedshare-shrink_800/0/1619871680889?e=1626912000&v=beta&t=mKVGjW6CoKHu7cHwjMq0UHDuqa7Is3rRCPelY3WVCmM" alt="Trulli" width="450" height="350" />
        </div>
  
-       <div class="gallery-cell">
-         <img id="photo" style="border-radius: 5%;" style="padding: 10px;" src="https://media-exp3.licdn.com/dms/image/C4E22AQGLFpLAwzJNNg/feedshare-shrink_800/0/1618057134079?e=1626912000&v=beta&t=rXWM0uuGHrbVhCpq153l7Awpew1fId019U2FbUw-oqI" alt="Trulli" width="450" height="350" />
+       <div class="gallery-cell" style="margin-top: 35px;">
+         <img id="photo" style="border-radius: 5%;" src="https://media-exp3.licdn.com/dms/image/C4E22AQGLFpLAwzJNNg/feedshare-shrink_800/0/1618057134079?e=1626912000&v=beta&t=rXWM0uuGHrbVhCpq153l7Awpew1fId019U2FbUw-oqI" alt="Trulli" width="450" height="350" />
        </div>
      </div>
    </div>
@@ -122,8 +129,13 @@
         <div class ="fas fa-code zoom" style="font-size:6rem;width:100%;text-align:center;"></div>
         <h4 style="text-align: center; padding-top: 1rem;">Contact</h4>
     </div>
+    <div class="col align-self-end">
+      <a href="/review">
+        <div class ="fas fa-star zoom" style="font-size:6rem;width:100%;text-align:center;"></div>
+        <h4 style="text-align: center; padding-top: 1rem;">Company Reviews</h4>
+    </div>
   </div>
-
+  
 
 {% endblock %}     
          
